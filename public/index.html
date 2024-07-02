@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SimpleChat</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
   <section class="msger">
     <header class="msger-header">
@@ -25,15 +27,22 @@
     </form>
   </section>
 
-  <script src="../node_modules/socket.io/client-dist/socket.io.js"></script>
-  <script>
+  <!-- Load socket.io-client -->
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO" crossorigin="anonymous"></script>
+
+  <!-- Your JavaScript code -->
+  <script type="module">
     const loggeInUser = localStorage.getItem('username');
 
     if (!loggeInUser) {
       window.location.href = 'login.html';
-      // return;
     }
+
+    // Import socket.io-client as a module
+    // import { io } from 'socket.io-client';
+
     const socket = io();
+
     const chat = document.getElementById('chat');
     const messageForm = document.getElementById('messageForm');
     const messageInput = document.getElementById('messageInput');
@@ -52,7 +61,7 @@
 
       const infoDiv = document.createElement('div');
       infoDiv.classList.add('msg-info');
-      
+
       const nameDiv = document.createElement('div');
       nameDiv.classList.add('msg-info-name');
       nameDiv.textContent = name;
@@ -98,4 +107,5 @@
     });
   </script>
 </body>
+
 </html>
