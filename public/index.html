@@ -41,7 +41,9 @@
     // Import socket.io-client as a module
     // import { io } from 'socket.io-client';
 
-    const socket = io();
+    const socket = io({
+      path: '/api/socket.io', // Specify the same path as on the server
+    });
 
     const chat = document.getElementById('chat');
     const messageForm = document.getElementById('messageForm');
