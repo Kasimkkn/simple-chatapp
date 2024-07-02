@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title> login </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <form id="loginForm">
+        <h3>Login Here</h3>
+        <label id="usernameLabel" for="username">Username</label>
+        <input id="username" type="text" placeholder="Enter Username" id="username">
+        <button class="btn">Log In</button>
+
+    </form>
+
+    
+    <script>
+        const loggeInUser = localStorage.getItem("username");
+
+        if(loggeInUser){
+            window.location.href = "index.html";
+            // return
+        }
+        const form = document.querySelector("form");
+
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const username = document.querySelector("#username").value;
+            if(username){
+                localStorage.setItem("username", username);
+                window.location.href = "index.html";
+            }
+        });
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SimpleChat</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <section class="msger">
+    <header class="msger-header">
+      <div class="msger-header-title">
+        <i class="fas fa-comment-alt"></i> SimpleChat
+      </div>
+      <div class="msger-header-options">
+        <span><i class="fas fa-cog"></i></span>
+      </div>
+    </header>
+    <main class="msger-chat" id="chat">
+      <!-- Messages will be appended here -->
+    </main>
+    <form class="msger-inputarea" id="messageForm">
+      <input type="text" class="msger-input" id="messageInput" placeholder="Enter your message...">
+      <button type="submit" class="msger-send-btn">Send</button>
+    </form>
+  </section>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const loggeInUser = localStorage.getItem('username');
+
+    if (!loggeInUser) {
+      window.location.href = 'login.html';
+      // return;
+    }
+    const socket = io();
+    const chat = document.getElementById('chat');
+    const messageForm = document.getElementById('messageForm');
+    const messageInput = document.getElementById('messageInput');
+
+    // Function to add message to the chat
+    function addMessage(name, text, className) {
+      const messageDiv = document.createElement('div');
+      messageDiv.classList.add('msg', className);
+
+      const imgDiv = document.createElement('div');
+      imgDiv.classList.add('msg-img');
+      imgDiv.style.backgroundImage = `url(${className === 'left-msg' ? 'kk.jpg' : 'kk.jpg'})`;
+
+      const bubbleDiv = document.createElement('div');
+      bubbleDiv.classList.add('msg-bubble');
+
+      const infoDiv = document.createElement('div');
+      infoDiv.classList.add('msg-info');
+      
+      const nameDiv = document.createElement('div');
+      nameDiv.classList.add('msg-info-name');
+      nameDiv.textContent = name;
+
+      const timeDiv = document.createElement('div');
+      timeDiv.classList.add('msg-info-time');
+      timeDiv.textContent = new Date().toLocaleTimeString();
+
+      const textDiv = document.createElement('div');
+      textDiv.classList.add('msg-text');
+      textDiv.textContent = text;
+
+      infoDiv.appendChild(nameDiv);
+      infoDiv.appendChild(timeDiv);
+      bubbleDiv.appendChild(infoDiv);
+      bubbleDiv.appendChild(textDiv);
+      messageDiv.appendChild(imgDiv);
+      messageDiv.appendChild(bubbleDiv);
+      chat.appendChild(messageDiv);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    // Listen for form submission
+    messageForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const message = messageInput.value.trim();
+      if (message) {
+        // Send message to server
+        const msg = {
+          name: loggeInUser,
+          text: message
+        }
+        socket.emit('chat message', msg);
+        messageInput.value = '';
+      }
+    });
+
+    // Listen for messages from server
+    socket.on('chat message', (msg) => {
+      const { name, text } = msg;
+      const className = name === 'kasim' ? 'left-msg' : 'right-msg';
+      addMessage(name, text, className);
+    });
+  </script>
+</body>
+</html>
