@@ -38,8 +38,6 @@
       window.location.href = 'login.html';
     }
 
-    // Import socket.io-client as a module
-    // import { io } from 'socket.io-client';
 
     const socket = io({
       path: '/api/socket.io', // Specify the same path as on the server
@@ -56,7 +54,7 @@
 
       const imgDiv = document.createElement('div');
       imgDiv.classList.add('msg-img');
-      imgDiv.style.backgroundImage = `url(${className === 'left-msg' ? 'kk.jpg' : 'kk.jpg'})`;
+      imgDiv.style.backgroundImage = `url(${className === 'left-msg' ? 'kk.jpg' : 'avi.png'})`;
 
       const bubbleDiv = document.createElement('div');
       bubbleDiv.classList.add('msg-bubble');
